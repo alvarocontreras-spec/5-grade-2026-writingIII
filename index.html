@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WRITING III - Physical Descriptions</title>
+    <title>WRITING III - Physical Descriptions A2</title>
     <style>
         :root {
             --oxford-blue: #002147;
@@ -11,6 +11,7 @@
             --soft-bg: #f4f7f9;
             --success: #10b981;
             --wordbank-bg: #eef2ff;
+            --review-light: #fffcf0;
         }
 
         body {
@@ -98,17 +99,27 @@
         .btn-send { background: var(--success); color: white; margin-top: 15px; }
         .btn-edit { background: #eee; color: #555; width: auto; margin-right: 10px; }
 
+        /* Pantallas */
         #reviewScreen, #finalMessage { display: none; }
 
         .review-box {
-            background: #fffcf0; padding: 20px; border-radius: 15px;
+            background: var(--review-light); padding: 20px; border-radius: 15px;
             border-left: 6px solid var(--oxford-gold); margin-bottom: 20px;
+        }
+
+        .feedback-guide {
+            background: #eef2ff; padding: 15px; border-radius: 10px;
+            margin-bottom: 20px; font-size: 0.9rem; border: 1px solid #d1dbff;
         }
 
         .review-text {
             background: white; padding: 15px; border-radius: 8px;
-            border: 1px solid #e2e8f0; margin: 10px 0 20px 0;
+            border: 1px solid #e2e8f0; margin: 10px 0 5px 0;
             white-space: pre-wrap; font-style: italic; color: #333;
+        }
+
+        .word-counter {
+            font-size: 0.8rem; text-align: right; color: #666; margin-bottom: 20px;
         }
 
         @media (max-width: 750px) {
@@ -138,7 +149,7 @@
         <div class="word-bank">
             <div class="word-category">
                 <h4>💇‍♂️ Hair</h4>
-                <div class="word-list">Short, long, curly, straight, wavy, dark, brown.</div>
+                <div class="word-list">Short, long, curly, straight, wavy, dark, brown, blonde.</div>
             </div>
             <div class="word-category">
                 <h4>👀 Eyes</h4>
@@ -146,11 +157,11 @@
             </div>
             <div class="word-category">
                 <h4>✨ Features</h4>
-                <div class="word-list">Mustache, headband, glasses, earrings, denim jacket.</div>
+                <div class="word-list">Mustache, headband, glasses, earrings, denim jacket, smiling.</div>
             </div>
             <div class="word-category">
-                <h4>📏 Body</h4>
-                <div class="word-list">Strong, tall, slim, short, muscles.</div>
+                <h4>📏 Body & Vibe</h4>
+                <div class="word-list">Strong, tall, slim, short, muscles, happy, serious.</div>
             </div>
         </div>
 
@@ -160,7 +171,7 @@
                 <div class="image-container">
                     <img src="https://raw.githubusercontent.com/alvarocontreras-spec/5-grade-2026-writingIII/cb2eca81d86d48c036a0f2d0258d2aa051c43896/describir-hombre-en-ingles.webp" alt="Man with mustache">
                 </div>
-                <textarea id="textMan" placeholder="He has got..."></textarea>
+                <textarea id="textMan" placeholder="Example: He is a strong man. He has got a big mustache..."></textarea>
             </div>
 
             <div class="task-card">
@@ -168,26 +179,39 @@
                 <div class="image-container">
                     <img src="https://raw.githubusercontent.com/alvarocontreras-spec/5-grade-2026-writingIII/cb2eca81d86d48c036a0f2d0258d2aa051c43896/61b74b7b5f66bf311c9250ac_happy-young-woman-on-a-yellow-background-SBI-317641691_1_l8qfut.jpeg" alt="Woman with yellow glasses">
                 </div>
-                <textarea id="textWoman" placeholder="She has got..."></textarea>
+                <textarea id="textWoman" placeholder="Example: She is a happy woman. She has got yellow glasses..."></textarea>
             </div>
         </div>
 
-        <button class="btn-review" onclick="showReview()">🔍 Review My Descriptions</button>
+        <button class="btn-review" onclick="showReview()">🔍 Review & Count Words</button>
     </div>
 
     <div class="card" id="reviewScreen">
-        <div class="header-logo">CHECK YOUR WORK</div>
+        <div class="header-logo">CHECK YOUR WORK (A2 Level)</div>
+        
         <div class="review-box">
             <strong>Student:</strong> <span id="revName"></span> | <strong>Class:</strong> <span id="revClass"></span>
         </div>
 
+        <div class="feedback-guide">
+            <h4 style="margin-top:0; color: var(--oxford-blue);">📝 A2 Checklist for Success:</h4>
+            <ul style="margin-bottom:0;">
+                <li>Did you use <strong>"has got"</strong> for hair, eyes and features?</li>
+                <li>Is your description longer than <strong>25 words</strong>? (Check below)</li>
+                <li>Did you use <strong>adjectives</strong> (colors, sizes, styles)?</li>
+                <li>Did you mention <strong>clothing or special details</strong> (glasses, mustache)?</li>
+            </ul>
+        </div>
+
         <p><strong>Description 1 (Him):</strong></p>
         <div class="review-text" id="revMan"></div>
+        <div id="countMan" class="word-counter"></div>
 
         <p><strong>Description 2 (Her):</strong></p>
         <div class="review-text" id="revWoman"></div>
+        <div id="countWoman" class="word-counter"></div>
 
-        <div style="text-align: center;">
+        <div style="text-align: center; margin-top: 20px;">
             <button class="btn-edit" onclick="goBackAndEdit()">✏️ Go Back & Edit</button>
             <button class="btn-send" id="sendBtn" onclick="sendTask()">🚀 Confirm & Send to Teacher</button>
         </div>
@@ -195,13 +219,14 @@
 
     <div class="card" id="finalMessage" style="text-align: center;">
         <div style="font-size: 5rem; color: var(--success);">✔</div>
-        <h1 style="color: var(--oxford-blue);">EXCELLENT!</h1>
-        <p>Your writing has been sent to the teacher's folder.</p>
+        <h1 style="color: var(--oxford-blue);">EXCELLENT WORK!</h1>
+        <p>Your writing task has been successfully sent.</p>
         <button onclick="location.reload()" style="background: #eee; width: auto; padding: 10px 20px; color: #555;">Write another</button>
     </div>
 </div>
 
 <script>
+    // URL DE TU GOOGLE APPS SCRIPT
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzC5NzVTjG_FcrtrTzf1zYkkA204-SIT6-pXf2hT_GY4rdk-6AOz2yD7JmQo7UjZeQ8/exec";
 
     const students = {
@@ -227,15 +252,24 @@
 
     function showReview() {
         const name = document.getElementById('sName').value;
-        const textMan = document.getElementById('textMan').value;
-        const textWoman = document.getElementById('textWoman').value;
-        if(!name || textMan.length < 5 || textWoman.length < 5) return alert("Please complete your name and both descriptions!");
+        const textMan = document.getElementById('textMan').value.trim();
+        const textWoman = document.getElementById('textWoman').value.trim();
         
+        if(!name) return alert("Please select your name!");
+        if(!textMan || !textWoman) return alert("Both descriptions are required!");
+
+        // Conteo de palabras
+        const count1 = textMan === "" ? 0 : textMan.split(/\s+/).length;
+        const count2 = textWoman === "" ? 0 : textWoman.split(/\s+/).length;
+
         document.getElementById('revName').textContent = name;
         document.getElementById('revClass').textContent = document.getElementById('sClass').value;
         document.getElementById('revMan').textContent = textMan;
         document.getElementById('revWoman').textContent = textWoman;
         
+        document.getElementById('countMan').textContent = `Word count: ${count1} words. ${count1 < 25 ? '⚠️ Try to write more!' : '✅ Good length!'}`;
+        document.getElementById('countWoman').textContent = `Word count: ${count2} words. ${count2 < 25 ? '⚠️ Try to write more!' : '✅ Good length!'}`;
+
         document.getElementById('writingScreen').style.display = 'none';
         document.getElementById('reviewScreen').style.display = 'block';
         window.scrollTo(0,0);
@@ -248,16 +282,22 @@
 
     async function sendTask() {
         const btn = document.getElementById('sendBtn');
-        btn.disabled = true; btn.textContent = "Sending...";
+        btn.disabled = true; btn.textContent = "⌛ Sending...";
+        
         const payload = {
             filename: `WRITING3_${document.getElementById('sClass').value}_${document.getElementById('sName').value.replace(/ /g,"_")}.txt`,
-            content: `STUDENT: ${document.getElementById('sName').value}\n\nHIM: ${document.getElementById('textMan').value}\n\nHER: ${document.getElementById('textWoman').value}`
+            content: `STUDENT: ${document.getElementById('sName').value}\nCLASS: ${document.getElementById('sClass').value}\n\n[HIM]:\n${document.getElementById('textMan').value}\n\n[HER]:\n${document.getElementById('textWoman').value}`
         };
+
         try {
             await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
             document.getElementById('reviewScreen').style.display = 'none';
             document.getElementById('finalMessage').style.display = 'block';
-        } catch (e) { alert("Error connecting. Try again."); btn.disabled = false; }
+        } catch (e) { 
+            alert("Error sending. Please check your internet."); 
+            btn.disabled = false; 
+            btn.textContent = "🚀 Confirm & Send to Teacher";
+        }
     }
 </script>
 </body>
