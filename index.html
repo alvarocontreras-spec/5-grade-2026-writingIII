@@ -158,7 +158,7 @@
             <div class="task-card">
                 <h3 style="text-align: center; color: var(--oxford-blue);">Task 1: Describe Him</h3>
                 <div class="image-container">
-                    <img src="https://raw.githubusercontent.com/TU_USUARIO/TU_REPOSITORIO/main/describir-hombre-en-ingles.webp" alt="Man with mustache">
+                    <img src="https://raw.githubusercontent.com/alvarocontreras-spec/5-grade-2026-writingIII/cb2eca81d86d48c036a0f2d0258d2aa051c43896/describir-hombre-en-ingles.webp" alt="Man with mustache">
                 </div>
                 <textarea id="textMan" placeholder="He has got..."></textarea>
             </div>
@@ -166,7 +166,7 @@
             <div class="task-card">
                 <h3 style="text-align: center; color: var(--oxford-blue);">Task 2: Describe Her</h3>
                 <div class="image-container">
-                    <img src="https://raw.githubusercontent.com/TU_USUARIO/TU_REPOSITORIO/main/61b74b7b5f66bf311c9250ac_happy-young-woman-on-a-yellow-background-SBI-317641691_1_l8qfut.jpeg" alt="Woman with yellow glasses">
+                    <img src="https://raw.githubusercontent.com/alvarocontreras-spec/5-grade-2026-writingIII/cb2eca81d86d48c036a0f2d0258d2aa051c43896/61b74b7b5f66bf311c9250ac_happy-young-woman-on-a-yellow-background-SBI-317641691_1_l8qfut.jpeg" alt="Woman with yellow glasses">
                 </div>
                 <textarea id="textWoman" placeholder="She has got..."></textarea>
             </div>
@@ -179,13 +179,12 @@
         <div class="header-logo">CHECK YOUR WORK</div>
         <div class="review-box">
             <strong>Student:</strong> <span id="revName"></span> | <strong>Class:</strong> <span id="revClass"></span>
-            <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">Read your work. If it's correct, click send!</p>
         </div>
 
-        <p><strong>Him (Man):</strong></p>
+        <p><strong>Description 1 (Him):</strong></p>
         <div class="review-text" id="revMan"></div>
 
-        <p><strong>Her (Woman):</strong></p>
+        <p><strong>Description 2 (Her):</strong></p>
         <div class="review-text" id="revWoman"></div>
 
         <div style="text-align: center;">
@@ -197,7 +196,7 @@
     <div class="card" id="finalMessage" style="text-align: center;">
         <div style="font-size: 5rem; color: var(--success);">✔</div>
         <h1 style="color: var(--oxford-blue);">EXCELLENT!</h1>
-        <p>Your descriptions have been sent to the teacher's folder.</p>
+        <p>Your writing has been sent to the teacher's folder.</p>
         <button onclick="location.reload()" style="background: #eee; width: auto; padding: 10px 20px; color: #555;">Write another</button>
     </div>
 </div>
@@ -230,7 +229,7 @@
         const name = document.getElementById('sName').value;
         const textMan = document.getElementById('textMan').value;
         const textWoman = document.getElementById('textWoman').value;
-        if(!name || textMan.length < 5 || textWoman.length < 5) return alert("Complete your name and both descriptions!");
+        if(!name || textMan.length < 5 || textWoman.length < 5) return alert("Please complete your name and both descriptions!");
         
         document.getElementById('revName').textContent = name;
         document.getElementById('revClass').textContent = document.getElementById('sClass').value;
