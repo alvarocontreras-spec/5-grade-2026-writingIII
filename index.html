@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WRITING III - Double Description & Feedback</title>
+    <title>WRITING III - Physical Descriptions</title>
     <style>
         :root {
             --oxford-blue: #002147;
             --oxford-gold: #F39200;
             --soft-bg: #f4f7f9;
             --success: #10b981;
-            --review-bg: #fffcf0;
-            --border-color: #e2e8f0;
+            --wordbank-bg: #eef2ff;
         }
 
         body {
@@ -23,7 +22,7 @@
             justify-content: center;
         }
 
-        .container { max-width: 900px; width: 100%; }
+        .container { max-width: 950px; width: 100%; }
 
         .card {
             background: white;
@@ -43,80 +42,76 @@
             padding-bottom: 10px;
         }
 
-        /* Identificación */
-        .student-inputs { 
-            display: flex; gap: 15px; margin-bottom: 25px;
-        }
+        .student-inputs { display: flex; gap: 15px; margin-bottom: 20px; }
 
         select {
             flex: 1; padding: 12px; border-radius: 10px;
-            border: 2px solid var(--border-color); font-size: 1rem; outline: none;
+            border: 2px solid #e2e8f0; font-size: 1rem; outline: none;
         }
-        select:focus { border-color: var(--oxford-blue); }
 
-        /* Layout de las tareas */
+        /* Word Bank */
+        .word-bank {
+            background: var(--wordbank-bg);
+            border: 2px dashed var(--oxford-blue);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .word-category h4 { margin: 0 0 5px 0; color: var(--oxford-blue); font-size: 0.9rem; text-transform: uppercase; }
+        .word-list { font-size: 0.85rem; color: #475569; line-height: 1.4; }
+
+        /* Tareas */
         .task-section {
             display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;
         }
 
         .task-card {
             background: #f8fafc; padding: 20px; border-radius: 15px;
-            border: 1px solid var(--border-color);
+            border: 1px solid #e2e8f0;
         }
-
-        .task-card h3 { color: var(--oxford-blue); margin-top: 0; text-align: center; }
 
         .image-container img {
-            width: 100%; height: 300px; object-fit: cover;
+            width: 100%; height: 350px; object-fit: cover;
             border-radius: 12px; border: 4px solid var(--oxford-gold);
             margin-bottom: 15px;
-        }
-
-        .helper-box {
-            background: #fffcf0;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            border-left: 3px solid var(--oxford-gold);
-            margin-bottom: 10px;
+            background-color: #eee;
         }
 
         textarea {
-            width: 100%; height: 180px; padding: 12px;
-            border: 2px solid var(--border-color); border-radius: 10px;
+            width: 100%; height: 160px; padding: 12px;
+            border: 2px solid #e2e8f0; border-radius: 10px;
             font-size: 1rem; resize: none; box-sizing: border-box;
             font-family: inherit; outline: none;
         }
-        textarea:focus { border-color: var(--oxford-blue); }
 
-        /* Botones */
         button {
-            padding: 15px 25px; border-radius: 12px; border: none;
-            font-weight: bold; font-size: 1.1rem; cursor: pointer;
-            transition: 0.3s; width: 100%;
+            padding: 15px; border-radius: 12px; border: none;
+            font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%;
+            transition: 0.3s;
         }
 
-        .btn-review { background: var(--oxford-gold); color: white; margin-top: 10px; }
+        .btn-review { background: var(--oxford-gold); color: white; }
         .btn-send { background: var(--success); color: white; margin-top: 15px; }
-        .btn-edit { background: #eee; color: #555; margin-top: 10px; width: auto; }
+        .btn-edit { background: #eee; color: #555; width: auto; margin-right: 10px; }
 
-        /* Pantallas */
         #reviewScreen, #finalMessage { display: none; }
 
-        /* Estilos de Revisión */
         .review-box {
-            background: var(--review-bg); padding: 25px; border-radius: 15px;
+            background: #fffcf0; padding: 20px; border-radius: 15px;
             border-left: 6px solid var(--oxford-gold); margin-bottom: 20px;
         }
-        .review-item { margin-bottom: 20px; }
-        .review-item strong { color: var(--oxford-blue); font-size: 1.1rem; }
+
         .review-text {
             background: white; padding: 15px; border-radius: 8px;
-            border: 1px solid var(--border-color); margin-top: 8px;
-            white-space: pre-wrap; font-style: italic; color: #555;
+            border: 1px solid #e2e8f0; margin: 10px 0 20px 0;
+            white-space: pre-wrap; font-style: italic; color: #333;
         }
 
-        @media (max-width: 700px) {
+        @media (max-width: 750px) {
             .task-section { grid-template-columns: 1fr; }
             .student-inputs { flex-direction: column; }
         }
@@ -140,29 +135,38 @@
             </select>
         </div>
 
-        <p style="text-align: center; color: #666; margin-bottom: 25px;">
-            Describe the two people below. Remember to use <strong>have/has got</strong> for hairstyle, hair color, eyes, and special features!
-        </p>
+        <div class="word-bank">
+            <div class="word-category">
+                <h4>💇‍♂️ Hair</h4>
+                <div class="word-list">Short, long, curly, straight, wavy, dark, brown.</div>
+            </div>
+            <div class="word-category">
+                <h4>👀 Eyes</h4>
+                <div class="word-list">Big, small, brown, green, blue.</div>
+            </div>
+            <div class="word-category">
+                <h4>✨ Features</h4>
+                <div class="word-list">Mustache, headband, glasses, earrings, denim jacket.</div>
+            </div>
+            <div class="word-category">
+                <h4>📏 Body</h4>
+                <div class="word-list">Strong, tall, slim, short, muscles.</div>
+            </div>
+        </div>
 
         <div class="task-section">
             <div class="task-card">
-                <h3>Task 1: Describe Him</h3>
+                <h3 style="text-align: center; color: var(--oxford-blue);">Task 1: Describe Him</h3>
                 <div class="image-container">
-                    <img src="image_0.png" alt="Strong man with mustache">
-                </div>
-                <div class="helper-box">
-                    <strong>💡 Vocabulary Tips:</strong> Big mustache, headband, strong, navy blue tank top, teeth.
+                    <img src="https://raw.githubusercontent.com/TU_USUARIO/TU_REPOSITORIO/main/describir-hombre-en-ingles.webp" alt="Man with mustache">
                 </div>
                 <textarea id="textMan" placeholder="He has got..."></textarea>
             </div>
 
             <div class="task-card">
-                <h3>Task 2: Describe Her</h3>
+                <h3 style="text-align: center; color: var(--oxford-blue);">Task 2: Describe Her</h3>
                 <div class="image-container">
-                    <img src="image_1.png" alt="Smiling woman with yellow glasses">
-                </div>
-                <div class="helper-box">
-                    <strong>💡 Vocabulary Tips:</strong> Yellow glasses, long brown hair, smiling, denim jacket, hoop earrings.
+                    <img src="https://raw.githubusercontent.com/TU_USUARIO/TU_REPOSITORIO/main/61b74b7b5f66bf311c9250ac_happy-young-woman-on-a-yellow-background-SBI-317641691_1_l8qfut.jpeg" alt="Woman with yellow glasses">
                 </div>
                 <textarea id="textWoman" placeholder="She has got..."></textarea>
             </div>
@@ -172,24 +176,19 @@
     </div>
 
     <div class="card" id="reviewScreen">
-        <div class="header-logo">REVIEW YOUR WORK</div>
-        
+        <div class="header-logo">CHECK YOUR WORK</div>
         <div class="review-box">
-            <p style="margin-top: 0;"><strong>Student:</strong> <span id="revName"></span> (<span id="revClass"></span>)</p>
-            <p style="color: #666; font-size: 0.9rem;">Please read your descriptions carefully. If you see a mistake, go back and edit. If it's perfect, confirm and send.</p>
+            <strong>Student:</strong> <span id="revName"></span> | <strong>Class:</strong> <span id="revClass"></span>
+            <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">Read your work. If it's correct, click send!</p>
         </div>
 
-        <div class="review-item">
-            <strong>Him (Task 1):</strong>
-            <div class="review-text" id="revMan"></div>
-        </div>
+        <p><strong>Him (Man):</strong></p>
+        <div class="review-text" id="revMan"></div>
 
-        <div class="review-item">
-            <strong>Her (Task 2):</strong>
-            <div class="review-text" id="revWoman"></div>
-        </div>
+        <p><strong>Her (Woman):</strong></p>
+        <div class="review-text" id="revWoman"></div>
 
-        <div style="text-align: center; margin-top: 30px;">
+        <div style="text-align: center;">
             <button class="btn-edit" onclick="goBackAndEdit()">✏️ Go Back & Edit</button>
             <button class="btn-send" id="sendBtn" onclick="sendTask()">🚀 Confirm & Send to Teacher</button>
         </div>
@@ -199,12 +198,11 @@
         <div style="font-size: 5rem; color: var(--success);">✔</div>
         <h1 style="color: var(--oxford-blue);">EXCELLENT!</h1>
         <p>Your descriptions have been sent to the teacher's folder.</p>
-        <button onclick="location.reload()" style="background: #eee; width: auto; padding: 10px 20px; color: #555;">Send another</button>
+        <button onclick="location.reload()" style="background: #eee; width: auto; padding: 10px 20px; color: #555;">Write another</button>
     </div>
 </div>
 
 <script>
-    // TU URL DE GOOGLE APPS SCRIPT
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzC5NzVTjG_FcrtrTzf1zYkkA204-SIT6-pXf2hT_GY4rdk-6AOz2yD7JmQo7UjZeQ8/exec";
 
     const students = {
@@ -228,71 +226,40 @@
         } else { nameSelect.disabled = true; }
     }
 
-    // Muestra la pantalla de Feedback Previo
     function showReview() {
         const name = document.getElementById('sName').value;
-        const studentClass = document.getElementById('sClass').value;
         const textMan = document.getElementById('textMan').value;
         const textWoman = document.getElementById('textWoman').value;
-
-        if(!name) return alert("Please select your name!");
-        if(textMan.trim().length < 10 || textWoman.trim().length < 10) return alert("Please write a complete description for both people.");
-
-        // Llenar datos de revisión
+        if(!name || textMan.length < 5 || textWoman.length < 5) return alert("Complete your name and both descriptions!");
+        
         document.getElementById('revName').textContent = name;
-        document.getElementById('revClass').textContent = studentClass;
+        document.getElementById('revClass').textContent = document.getElementById('sClass').value;
         document.getElementById('revMan').textContent = textMan;
         document.getElementById('revWoman').textContent = textWoman;
-
-        // Cambiar pantalla
+        
         document.getElementById('writingScreen').style.display = 'none';
         document.getElementById('reviewScreen').style.display = 'block';
-        window.scrollTo(0, 0); // Volver arriba
+        window.scrollTo(0,0);
     }
 
-    // Volver a la pantalla de escritura
     function goBackAndEdit() {
         document.getElementById('writingScreen').style.display = 'block';
         document.getElementById('reviewScreen').style.display = 'none';
-        window.scrollTo(0, 0);
     }
 
     async function sendTask() {
-        const name = document.getElementById('sName').value;
-        const studentClass = document.getElementById('sClass').value;
-        const textMan = document.getElementById('textMan').value;
-        const textWoman = document.getElementById('textWoman').value;
         const btn = document.getElementById('sendBtn');
-
-        btn.disabled = true;
-        btn.textContent = "⌛ Sending...";
-
+        btn.disabled = true; btn.textContent = "Sending...";
+        const payload = {
+            filename: `WRITING3_${document.getElementById('sClass').value}_${document.getElementById('sName').value.replace(/ /g,"_")}.txt`,
+            content: `STUDENT: ${document.getElementById('sName').value}\n\nHIM: ${document.getElementById('textMan').value}\n\nHER: ${document.getElementById('textWoman').value}`
+        };
         try {
-            // Unimos ambas descripciones en un solo contenido para el archivo
-            const payload = {
-                filename: `WRITING3_${studentClass}_${name.replace(/ /g, "_")}.txt`,
-                content: `STUDENT: ${name}\nCLASS: ${studentClass}\n\n[TASK 1: HIM]\n${textMan}\n\n[TASK 2: HER]\n${textWoman}`
-            };
-
-            await fetch(SCRIPT_URL, {
-                method: "POST",
-                mode: "no-cors",
-                body: JSON.stringify(payload)
-            });
-
-            // Delay breve para simular envío y mostrar éxito
-            setTimeout(() => {
-                document.getElementById('reviewScreen').style.display = 'none';
-                document.getElementById('finalMessage').style.display = 'block';
-            }, 1000);
-
-        } catch (e) {
-            alert("Connection error. Please try again.");
-            btn.disabled = false;
-            btn.textContent = "🚀 Confirm & Send to Teacher";
-        }
+            await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
+            document.getElementById('reviewScreen').style.display = 'none';
+            document.getElementById('finalMessage').style.display = 'block';
+        } catch (e) { alert("Error connecting. Try again."); btn.disabled = false; }
     }
 </script>
-
 </body>
 </html>
