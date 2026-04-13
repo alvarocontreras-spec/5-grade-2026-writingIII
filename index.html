@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WRITING III - Physical Description</title>
+    <title>WRITING III - Double Description & Feedback</title>
     <style>
         :root {
             --oxford-blue: #002147;
             --oxford-gold: #F39200;
             --soft-bg: #f4f7f9;
             --success: #10b981;
-            --drive-blue: #4285F4;
+            --review-bg: #fffcf0;
+            --border-color: #e2e8f0;
         }
 
         body {
@@ -22,109 +23,101 @@
             justify-content: center;
         }
 
-        .container { max-width: 850px; width: 100%; }
+        .container { max-width: 900px; width: 100%; }
 
         .card {
             background: white;
             padding: 30px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            text-align: center;
             border-top: 8px solid var(--oxford-blue);
         }
 
         .header-logo {
             font-weight: bold;
             color: var(--oxford-blue);
-            font-size: 1.6rem;
-            margin-bottom: 15px;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
             border-bottom: 2px solid #eee;
             padding-bottom: 10px;
         }
 
+        /* Identificación */
         .student-inputs { 
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
+            display: flex; gap: 15px; margin-bottom: 25px;
         }
 
         select {
-            flex: 1;
-            padding: 12px;
-            border-radius: 10px;
-            border: 2px solid #e2e8f0;
-            font-size: 1rem;
-            outline: none;
+            flex: 1; padding: 12px; border-radius: 10px;
+            border: 2px solid var(--border-color); font-size: 1rem; outline: none;
         }
-
         select:focus { border-color: var(--oxford-blue); }
 
-        .task-layout {
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 25px;
-            text-align: left;
+        /* Layout de las tareas */
+        .task-section {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;
         }
 
-        @media (max-width: 700px) {
-            .task-layout { grid-template-columns: 1fr; }
-            .student-inputs { flex-direction: column; }
+        .task-card {
+            background: #f8fafc; padding: 20px; border-radius: 15px;
+            border: 1px solid var(--border-color);
         }
+
+        .task-card h3 { color: var(--oxford-blue); margin-top: 0; text-align: center; }
 
         .image-container img {
-            width: 100%;
-            border-radius: 15px;
-            border: 4px solid var(--oxford-gold);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .helper-box {
-            background: #fffcf0;
-            padding: 15px;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            border-left: 5px solid var(--oxford-gold);
-            margin-top: 15px;
+            width: 100%; height: 250px; object-fit: cover;
+            border-radius: 12px; border: 4px solid var(--oxford-gold);
+            margin-bottom: 15px;
         }
 
         textarea {
-            width: 100%;
-            height: 250px;
-            padding: 15px;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            resize: none;
-            box-sizing: border-box;
-            font-family: inherit;
-            outline: none;
+            width: 100%; height: 180px; padding: 12px;
+            border: 2px solid var(--border-color); border-radius: 10px;
+            font-size: 1rem; resize: none; box-sizing: border-box;
+            font-family: inherit; outline: none;
         }
-
         textarea:focus { border-color: var(--oxford-blue); }
 
+        /* Botones */
         button {
-            padding: 18px;
-            border-radius: 12px;
-            border: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 100%;
+            padding: 15px 25px; border-radius: 12px; border: none;
+            font-weight: bold; font-size: 1.1rem; cursor: pointer;
+            transition: 0.3s; width: 100%;
         }
 
-        .btn-send { background: var(--oxford-blue); color: white; margin-top: 15px; }
-        .btn-send:hover { background: #003366; }
-        .btn-send:disabled { background: #cbd5e1; cursor: not-allowed; }
+        .btn-review { background: var(--oxford-gold); color: white; margin-top: 10px; }
+        .btn-send { background: var(--success); color: white; margin-top: 15px; }
+        .btn-edit { background: #eee; color: #555; margin-top: 10px; width: auto; }
 
-        #finalMessage { display: none; padding: 50px; }
+        /* Pantallas */
+        #reviewScreen, #finalMessage { display: none; }
+
+        /* Estilos de Revisión */
+        .review-box {
+            background: var(--review-bg); padding: 25px; border-radius: 15px;
+            border-left: 6px solid var(--oxford-gold); margin-bottom: 20px;
+        }
+        .review-item { margin-bottom: 20px; }
+        .review-item strong { color: var(--oxford-blue); font-size: 1.1rem; }
+        .review-text {
+            background: white; padding: 15px; border-radius: 8px;
+            border: 1px solid var(--border-color); margin-top: 8px;
+            white-space: pre-wrap; font-style: italic; color: #555;
+        }
+
+        @media (max-width: 700px) {
+            .task-section { grid-template-columns: 1fr; }
+            .student-inputs { flex-direction: column; }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="card" id="mainCard">
-        <div class="header-logo">WRITING III: PHYSICAL DESCRIPTION</div>
+    <div class="card" id="writingScreen">
+        <div class="header-logo">WRITING III: PHYSICAL DESCRIPTIONS</div>
 
         <div class="student-inputs">
             <select id="sClass" onchange="updateStudentList()">
@@ -138,33 +131,59 @@
             </select>
         </div>
 
-        <div class="task-layout">
-            <div class="image-container">
-                <img src="https://img.freepik.com/free-vector/young-man-with-glasses-illustration_1308-174706.jpg" alt="Character">
-                
-                <div class="helper-box">
-                    <strong>💡 Vocabulary Helper:</strong>
-                    <ul style="padding-left: 20px; margin: 8px 0; line-height: 1.6;">
-                        <li><strong>Hair:</strong> Straight, curly, wavy, short, long.</li>
-                        <li><strong>Eyes:</strong> Big, small, brown, green, blue.</li>
-                        <li><strong>Features:</strong> Glasses, freckles, a big smile.</li>
-                        <li><strong>Body:</strong> Tall, short, slim, strong.</li>
-                    </ul>
+        <p style="text-align: center; color: #666; margin-bottom: 25px;">
+            Describe the hairstyle, hair color, eyes, and special features of both people. Use <strong>have/has got</strong>.
+        </p>
+
+        <div class="task-section">
+            <div class="task-card">
+                <h3>Task 1: Describe Him</h3>
+                <div class="image-container">
+                    <img src="https://img.freepik.com/free-photo/portrait-handsome-smiling-stylish-young-man-model-with-curly-hair-glasses_158538-8422.jpg" alt="Man">
                 </div>
+                <textarea id="textMan" placeholder="He has got..."></textarea>
             </div>
 
-            <div class="writing-section">
-                <p style="margin-top:0; font-weight: bold; color: var(--oxford-blue);">Describe the person in the picture:</p>
-                <textarea id="writingInput" placeholder="Example: He has got short brown hair and..."></textarea>
-                <button id="sendBtn" class="btn-send" onclick="sendTask()">🚀 Send to Teacher</button>
+            <div class="task-card">
+                <h3>Task 2: Describe Her</h3>
+                <div class="image-container">
+                    <img src="https://img.freepik.com/free-photo/portrait-young-woman-with-brown-eyes-curly-hair-posing_158538-16478.jpg" alt="Woman">
+                </div>
+                <textarea id="textWoman" placeholder="She has got..."></textarea>
             </div>
+        </div>
+
+        <button class="btn-review" onclick="showReview()">🔍 Review My Descriptions</button>
+    </div>
+
+    <div class="card" id="reviewScreen">
+        <div class="header-logo">REVIEW YOUR WORK</div>
+        
+        <div class="review-box">
+            <p style="margin-top: 0;"><strong>Student:</strong> <span id="revName"></span> (<span id="revClass"></span>)</p>
+            <p style="color: #666; font-size: 0.9rem;">Please read your descriptions carefully. If you see a mistake, go back and edit. If it's perfect, confirm and send.</p>
+        </div>
+
+        <div class="review-item">
+            <strong>Him (Task 1):</strong>
+            <div class="review-text" id="revMan"></div>
+        </div>
+
+        <div class="review-item">
+            <strong>Her (Task 2):</strong>
+            <div class="review-text" id="revWoman"></div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="btn-edit" onclick="goBackAndEdit()">✏️ Go Back & Edit</button>
+            <button class="btn-send" id="sendBtn" onclick="sendTask()">🚀 Confirm & Send to Teacher</button>
         </div>
     </div>
 
-    <div class="card" id="finalMessage">
+    <div class="card" id="finalMessage" style="text-align: center;">
         <div style="font-size: 5rem; color: var(--success);">✔</div>
         <h1 style="color: var(--oxford-blue);">EXCELLENT!</h1>
-        <p>Your writing has been sent to the teacher's folder.</p>
+        <p>Your descriptions have been sent to the teacher's folder.</p>
         <button onclick="location.reload()" style="background: #eee; width: auto; padding: 10px 20px; color: #555;">Send another</button>
     </div>
 </div>
@@ -194,22 +213,50 @@
         } else { nameSelect.disabled = true; }
     }
 
+    // Muestra la pantalla de Feedback Previo
+    function showReview() {
+        const name = document.getElementById('sName').value;
+        const studentClass = document.getElementById('sClass').value;
+        const textMan = document.getElementById('textMan').value;
+        const textWoman = document.getElementById('textWoman').value;
+
+        if(!name) return alert("Please select your name!");
+        if(textMan.trim().length < 10 || textWoman.trim().length < 10) return alert("Please write a complete description for both people.");
+
+        // Llenar datos de revisión
+        document.getElementById('revName').textContent = name;
+        document.getElementById('revClass').textContent = studentClass;
+        document.getElementById('revMan').textContent = textMan;
+        document.getElementById('revWoman').textContent = textWoman;
+
+        // Cambiar pantalla
+        document.getElementById('writingScreen').style.display = 'none';
+        document.getElementById('reviewScreen').style.display = 'block';
+        window.scrollTo(0, 0); // Volver arriba
+    }
+
+    // Volver a la pantalla de escritura
+    function goBackAndEdit() {
+        document.getElementById('writingScreen').style.display = 'block';
+        document.getElementById('reviewScreen').style.display = 'none';
+        window.scrollTo(0, 0);
+    }
+
     async function sendTask() {
         const name = document.getElementById('sName').value;
         const studentClass = document.getElementById('sClass').value;
-        const text = document.getElementById('writingInput').value;
+        const textMan = document.getElementById('textMan').value;
+        const textWoman = document.getElementById('textWoman').value;
         const btn = document.getElementById('sendBtn');
-
-        if(!name) return alert("Please select your name!");
-        if(text.trim().length < 15) return alert("Your description is too short!");
 
         btn.disabled = true;
         btn.textContent = "⌛ Sending...";
 
         try {
+            // Unimos ambas descripciones en un solo contenido para el archivo
             const payload = {
-                filename: `WRITING_${studentClass}_${name.replace(/ /g, "_")}.txt`,
-                content: `STUDENT: ${name}\nCLASS: ${studentClass}\n\nDESCRIPTION:\n${text}`
+                filename: `WRITING3_${studentClass}_${name.replace(/ /g, "_")}.txt`,
+                content: `STUDENT: ${name}\nCLASS: ${studentClass}\n\n[TASK 1: HIM]\n${textMan}\n\n[TASK 2: HER]\n${textWoman}`
             };
 
             await fetch(SCRIPT_URL, {
@@ -218,16 +265,16 @@
                 body: JSON.stringify(payload)
             });
 
-            // Mostramos éxito después de un breve delay
+            // Delay breve para simular envío y mostrar éxito
             setTimeout(() => {
-                document.getElementById('mainCard').style.display = 'none';
+                document.getElementById('reviewScreen').style.display = 'none';
                 document.getElementById('finalMessage').style.display = 'block';
             }, 1000);
 
         } catch (e) {
-            alert("Connection error. Try again.");
+            alert("Connection error. Please try again.");
             btn.disabled = false;
-            btn.textContent = "🚀 Send to Teacher";
+            btn.textContent = "🚀 Confirm & Send to Teacher";
         }
     }
 </script>
