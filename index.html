@@ -10,6 +10,7 @@
             --oxford-gold: #F39200;
             --soft-bg: #f4f7f9;
             --success: #10b981;
+            --error: #ef4444;
             --wordbank-bg: #eef2ff;
             --review-light: #fffcf0;
         }
@@ -79,7 +80,7 @@
         .image-container img {
             width: 100%; height: 350px; object-fit: cover;
             border-radius: 12px; border: 4px solid var(--oxford-gold);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             background-color: #eee;
         }
 
@@ -89,6 +90,16 @@
             font-size: 1rem; resize: none; box-sizing: border-box;
             font-family: inherit; outline: none;
         }
+
+        /* Contadores en vivo */
+        .live-counter {
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 5px;
+            color: var(--error);
+        }
+        .live-counter.goal-met { color: var(--success); }
 
         button {
             padding: 15px; border-radius: 12px; border: none;
@@ -118,8 +129,6 @@
             white-space: pre-wrap; font-style: italic; color: #333;
         }
 
-        .word-counter { font-size: 0.8rem; text-align: right; color: #666; margin-bottom: 20px; }
-
         @media (max-width: 750px) {
             .task-section { grid-template-columns: 1fr; }
             .student-inputs { flex-direction: column; }
@@ -132,7 +141,7 @@
     <div class="card" id="alreadySentMessage" style="text-align: center;">
         <div style="font-size: 5rem;">🚫</div>
         <h1 style="color: var(--oxford-blue);">Task Already Sent</h1>
-        <p>You have already submitted this assignment. Check with your teacher if you need to make changes.</p>
+        <p>You have already submitted this assignment. You cannot send it again.</p>
     </div>
 
     <div class="card" id="writingScreen">
@@ -161,15 +170,15 @@
             </div>
             <div class="word-category">
                 <h4>💇‍♂️ Hair & Eyes</h4>
-                <div class="word-list">Short, long, curly, straight, wavy, dark, blonde, blue, green.</div>
+                <div class="word-list">Short, long, curly, wavy, dark, blonde, blue, green.</div>
             </div>
             <div class="word-category">
                 <h4>✨ Features</h4>
-                <div class="word-list">Mustache, glasses, freckles, headband, jacket, smiling, happy.</div>
+                <div class="word-list">Mustache, glasses, headband, denim jacket, smiling, happy.</div>
             </div>
             <div class="word-category">
                 <h4>📏 Body</h4>
-                <div class="word-list">Strong, tall, slim, short, fit, young.</div>
+                <div class="word-list">Strong, tall, slim, short, muscles, young.</div>
             </div>
         </div>
 
@@ -179,7 +188,8 @@
                 <div class="image-container">
                     <img src="https://raw.githubusercontent.com/alvarocontreras-spec/5-grade-2026-writingIII/cb2eca81d86d48c036a0f2d0258d2aa051c43896/describir-hombre-en-ingles.webp" alt="Man with mustache">
                 </div>
-                <textarea id="textMan" placeholder="Example: In this picture, there is a man. He is strong and..."></textarea>
+                <textarea id="textMan" oninput="updateLiveCount('textMan', 'liveMan')" placeholder="Example: In this picture..."></textarea>
+                <div id="liveMan" class="live-counter">Words: 0 / 25</div>
             </div>
 
             <div class="task-card">
@@ -187,11 +197,12 @@
                 <div class="image-container">
                     <img src="https://raw.githubusercontent.com/alvarocontreras-spec/5-grade-2026-writingIII/cb2eca81d86d48c036a0f2d0258d2aa051c43896/61b74b7b5f66bf311c9250ac_happy-young-woman-on-a-yellow-background-SBI-317641691_1_l8qfut.jpeg" alt="Woman with yellow glasses">
                 </div>
-                <textarea id="textWoman" placeholder="Example: This is a young woman. She has got blonde hair also..."></textarea>
+                <textarea id="textWoman" oninput="updateLiveCount('textWoman', 'liveWoman')" placeholder="Example: This is a young woman..."></textarea>
+                <div id="liveWoman" class="live-counter">Words: 0 / 25</div>
             </div>
         </div>
 
-        <button class="btn-review" onclick="showReview()">🔍 Review & Word Count</button>
+        <button class="btn-review" onclick="showReview()">🔍 Review My Work</button>
     </div>
 
     <div class="card" id="reviewScreen">
@@ -204,18 +215,15 @@
             <h4 style="margin-top:0; color: var(--oxford-blue);">📝 A2 Self-Check:</h4>
             <ul style="margin-bottom:0;">
                 <li>Did you use <strong>connectors</strong> (and, but, also)?</li>
-                <li>Is your text at least <strong>25 words</strong> per person?</li>
-                <li>Check your spelling of <strong>"has got"</strong> and <strong>"wearing"</strong>.</li>
+                <li>Is your text clear and easy to read?</li>
             </ul>
         </div>
 
-        <p><strong>Him (Man):</strong></p>
+        <p><strong>Description 1 (Him):</strong></p>
         <div class="review-text" id="revMan"></div>
-        <div id="countMan" class="word-counter"></div>
 
-        <p><strong>Her (Woman):</strong></p>
+        <p><strong>Description 2 (Her):</strong></p>
         <div class="review-text" id="revWoman"></div>
-        <div id="countWoman" class="word-counter"></div>
 
         <div style="text-align: center; margin-top: 20px;">
             <button class="btn-edit" onclick="goBackAndEdit()">✏️ Edit</button>
@@ -227,20 +235,35 @@
         <div style="font-size: 5rem; color: var(--success);">✔</div>
         <h1 style="color: var(--oxford-blue);">WELL DONE!</h1>
         <p>Your writing task has been sent successfully.</p>
-        <p style="color: #666; font-size: 0.9rem;">You can close this window now.</p>
+        <p style="color: #666; font-size: 0.9rem;">Task completed for 2026.</p>
     </div>
 </div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzC5NzVTjG_FcrtrTzf1zYkkA204-SIT6-pXf2hT_GY4rdk-6AOz2yD7JmQo7UjZeQ8/exec";
 
-    // Bloqueo de envío único
+    // Bloqueo de envío único al cargar
     window.onload = function() {
         if (localStorage.getItem("writing_submitted_2026") === "true") {
             document.getElementById('writingScreen').style.display = 'none';
             document.getElementById('alreadySentMessage').style.display = 'block';
         }
     };
+
+    // Función contador en vivo
+    function updateLiveCount(textId, counterId) {
+        const text = document.getElementById(textId).value.trim();
+        const counter = document.getElementById(counterId);
+        const words = text === "" ? 0 : text.split(/\s+/).length;
+        
+        counter.textContent = `Words: ${words} / 25`;
+        
+        if(words >= 25) {
+            counter.classList.add('goal-met');
+        } else {
+            counter.classList.remove('goal-met');
+        }
+    }
 
     const students = {
         "5thA": ["ARANEDA SEPÚLVEDA MATÍAS SANTIAGO", "AYALA OLIVARES MÁXIMO ALONSO", "CAMPUSANO PÉREZ ISIDORA MONTSERRAT", "CANESSA VEGA BERNARDO FRANCISCO", "CARRASCO RAMÍREZ JAVIERA PAZ", "CHAMORRO SAN MARTÍN SEBASTIÁN FRANCISCO", "CORREA LEAL SANTIAGO LEÓN", "CUKIC LUENGO BRUNO EDUARDO", "ESPINOZA OLIVARES LUCAS ALEJANDRO", "FERNÁNDEZ ESCOBAR MARTÍN FELIPE", "FERNÁNDEZ RODRIGUEZ FERNANDA NICOLE", "GARNIER VELÁSQUEZ MAXIMILIANO LORENZO", "GARZON MACUER AMANDA SOFÍA", "GONZÁLEZ ARRIAGADA SOFÍA ISIDORA", "IBARRA BARRAZA DOMINGA PAZ", "JARAMILLO CANALES JULIETA ANTONIA", "JIMÉNEZ MONSALVES FERNANDA PAZ", "MACUADA GONZÁLEZ TOMÁS ALONSO", "MEZA MISTO FRANCISCA IGNACIA", "MUÑOZ OLIVOS SOFÍA ANTONIA", "NECULQUEO MURA JAVIER MATIAS", "OSORIO MUÑOZ LUCIANO", "PARRA ALIAGA AGUSTÍN CLEMENTE LEÓN", "RIQUELME CONTRERAS JULIETA ISADORA", "SALINAS SAAVEDRA EMILIANO IGNACIO", "SÁNCHEZ MORAGA NICOLÁS ARTURO", "SEISDEDOS CARVAJAL ANGELA GUADALUPE", "SEREY VALDES RENATO CLEMENTE", "SEYMOUR REYES TRINIDAD EMILIA", "VALLEJOS NAVARRO JOSEFA AGUSTINA", "VELOSO MUÑOZ ISABELLA AMARAL", "VERGARA FUENZALIDA JOAQUÍN IGNACIO", "VERGARA MARÍN DAMIÁN ALONSO", "VINES ZÚÑIGA DAMIÁN ALBERTO", "ZURITA BUSTOS ANTONIA INÉS"],
@@ -268,19 +291,16 @@
         const textMan = document.getElementById('textMan').value.trim();
         const textWoman = document.getElementById('textWoman').value.trim();
         
-        if(!name || textMan.length < 10 || textWoman.length < 10) return alert("Please complete your name and both descriptions properly!");
-
-        const count1 = textMan.split(/\s+/).length;
-        const count2 = textWoman.split(/\s+/).length;
+        if(!name) return alert("Please select your name!");
+        if(textMan.split(/\s+/).length < 5 || textWoman.split(/\s+/).length < 5) {
+            return alert("Your descriptions are too short. Please write more!");
+        }
 
         document.getElementById('revName').textContent = name;
         document.getElementById('revClass').textContent = document.getElementById('sClass').value;
         document.getElementById('revMan').textContent = textMan;
         document.getElementById('revWoman').textContent = textWoman;
         
-        document.getElementById('countMan').textContent = `Word count: ${count1} words. ${count1 < 25 ? '⚠️ Short' : '✅ Good'}`;
-        document.getElementById('countWoman').textContent = `Word count: ${count2} words. ${count2 < 25 ? '⚠️ Short' : '✅ Good'}`;
-
         document.getElementById('writingScreen').style.display = 'none';
         document.getElementById('reviewScreen').style.display = 'block';
         window.scrollTo(0,0);
@@ -294,7 +314,7 @@
     async function sendTask() {
         const btn = document.getElementById('sendBtn');
         btn.disabled = true; 
-        btn.textContent = "⌛ Sending... Do not close";
+        btn.textContent = "⌛ Sending...";
 
         const payload = {
             filename: `WRITING3_${document.getElementById('sClass').value}_${document.getElementById('sName').value.replace(/ /g,"_")}.txt`,
@@ -303,12 +323,11 @@
 
         try {
             await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
-            // Guardar estado en el navegador para evitar doble envío
             localStorage.setItem("writing_submitted_2026", "true");
             document.getElementById('reviewScreen').style.display = 'none';
             document.getElementById('finalMessage').style.display = 'block';
         } catch (e) { 
-            alert("Error connecting. Try again."); 
+            alert("Error sending. Check connection."); 
             btn.disabled = false; 
             btn.textContent = "🚀 Send to Teacher";
         }
