@@ -3,334 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WRITING III - Physical Descriptions A2</title>
+    <title>Literacy Lab - Final Project Production Guide (A2)</title>
     <style>
         :root {
             --oxford-blue: #002147;
             --oxford-gold: #F39200;
             --soft-bg: #f4f7f9;
-            --success: #10b981;x
-            --error: #ef4444;
-            --wordbank-bg: #eef2ff;
-            --review-light: #fffcf0;
+            --success: #10b981;
+            --white: #ffffff;
+            --text-muted: #64748b;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--soft-bg);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--soft-bg); margin: 0; padding: 20px; color: #333; overflow-x: hidden; }
+        .container { max-width: 800px; margin: 0 auto; transition: margin-right 0.4s; }
 
-        .container { max-width: 950px; width: 100%; }
+        .card { background: var(--white); padding: 35px; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 10px solid var(--oxford-blue); }
+        h2, h3 { color: var(--oxford-blue); text-align: center; margin-top: 0; }
+        .subtitle { text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 0.9rem; }
 
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            border-top: 8px solid var(--oxford-blue);
-        }
+        .step-box { background: #f8fafc; padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
+        .step-title { color: var(--oxford-blue); font-weight: bold; margin-bottom: 15px; border-bottom: 2px solid var(--oxford-gold); padding-bottom: 5px; width: fit-content; text-transform: uppercase; font-size: 0.85rem; }
 
-        .header-logo {
-            font-weight: bold;
-            color: var(--oxford-blue);
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            text-align: center;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
+        /* FORMAT SELECTION */
+        .format-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+        .format-option { border: 2px solid #e2e8f0; padding: 15px; border-radius: 15px; cursor: pointer; background: white; transition: 0.3s; text-align: center; }
+        .format-option:hover { border-color: var(--oxford-gold); transform: translateY(-3px); }
+        .format-option.selected { border-color: var(--oxford-gold); background: #fffcf0; box-shadow: 0 5px 15px rgba(243, 146, 0, 0.1); }
+        .format-option h4 { margin: 8px 0 0 0; font-size: 0.8rem; color: var(--oxford-blue); }
 
-        .student-inputs { display: flex; gap: 15px; margin-bottom: 20px; }
+        /* CHECKLIST STYLING */
+        .checklist-item { display: flex; align-items: center; background: #fff; padding: 10px; border-radius: 8px; margin-bottom: 8px; border: 1px solid #e2e8f0; font-size: 0.9rem; }
+        .checklist-item input { margin-right: 12px; width: 18px; height: 18px; cursor: pointer; accent-color: var(--oxford-gold); }
 
-        select {
-            flex: 1; padding: 12px; border-radius: 10px;
-            border: 2px solid #e2e8f0; font-size: 1rem; outline: none;
-        }
+        /* SLIDING SIDEBAR (TOOLKIT) */
+        .toolkit-sidebar { position: fixed; right: -350px; top: 0; width: 320px; height: 100%; background: var(--white); box-shadow: -5px 0 25px rgba(0,0,0,0.15); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 25px; overflow-y: auto; border-left: 8px solid var(--oxford-gold); }
+        .toolkit-sidebar.open { right: 0; }
+        .toolkit-toggle { position: fixed; right: 25px; bottom: 25px; background: var(--oxford-gold); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); z-index: 1001; font-size: 1.8rem; border: none; }
 
-        /* Word Bank */
-        .word-bank {
-            background: var(--wordbank-bg);
-            border: 2px dashed var(--oxford-blue);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
+        /* TOOLKIT CONTENT */
+        .tool-section { margin-bottom: 18px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+        .tool-label { font-size: 0.75rem; font-weight: 800; color: var(--oxford-gold); text-transform: uppercase; display: block; margin-bottom: 8px; }
+        .phrase-item { font-size: 0.82rem; color: #475569; display: block; margin-bottom: 4px; line-height: 1.4; }
 
-        .word-category h4 { margin: 0 0 5px 0; color: var(--oxford-blue); font-size: 0.9rem; text-transform: uppercase; }
-        .word-list { font-size: 0.85rem; color: #475569; line-height: 1.4; }
-        .highlight-word { color: #2563eb; font-weight: bold; }
+        /* INPUTS */
+        #dynamicGuide { display: none; margin-top: 25px; }
+        .phase-section { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 15px; border-left: 6px solid var(--oxford-gold); }
+        .phase-header { font-weight: bold; color: var(--oxford-blue); text-transform: uppercase; font-size: 0.75rem; margin-bottom: 15px; display: flex; align-items: center; }
+        .phase-header span { background: var(--oxford-gold); color: white; padding: 2px 8px; border-radius: 4px; margin-right: 10px; }
+        textarea { padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 0.95rem; width: 100%; box-sizing: border-box; min-height: 60px; transition: 0.2s; font-family: inherit; margin-top: 5px; }
+        textarea:focus { border-color: var(--oxford-gold); outline: none; background: #fff; }
 
-        /* Tareas */
-        .task-section {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;
-        }
-
-        .task-card {
-            background: #f8fafc; padding: 20px; border-radius: 15px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .image-container img {
-            width: 100%; height: 350px; object-fit: cover;
-            border-radius: 12px; border: 4px solid var(--oxford-gold);
-            margin-bottom: 10px;
-            background-color: #eee;
-        }
-
-        textarea {
-            width: 100%; height: 160px; padding: 12px;
-            border: 2px solid #e2e8f0; border-radius: 10px;
-            font-size: 1rem; resize: none; box-sizing: border-box;
-            font-family: inherit; outline: none;
-        }
-
-        /* Contadores en vivo */
-        .live-counter {
-            font-size: 0.85rem;
-            font-weight: bold;
-            text-align: right;
-            margin-top: 5px;
-            color: var(--error);
-        }
-        .live-counter.goal-met { color: var(--success); }
-
-        button {
-            padding: 15px; border-radius: 12px; border: none;
-            font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%;
-            transition: 0.3s;
-        }
-
-        .btn-review { background: var(--oxford-gold); color: white; }
-        .btn-send { background: var(--success); color: white; margin-top: 15px; }
-        .btn-edit { background: #eee; color: #555; width: auto; margin-right: 10px; }
-
-        #reviewScreen, #finalMessage, #alreadySentMessage { display: none; }
-
-        .review-box {
-            background: var(--review-light); padding: 20px; border-radius: 15px;
-            border-left: 6px solid var(--oxford-gold); margin-bottom: 20px;
-        }
-
-        .feedback-guide {
-            background: #eef2ff; padding: 15px; border-radius: 10px;
-            margin-bottom: 20px; font-size: 0.9rem; border: 1px solid #d1dbff;
-        }
-
-        .review-text {
-            background: white; padding: 15px; border-radius: 8px;
-            border: 1px solid #e2e8f0; margin: 10px 0 5px 0;
-            white-space: pre-wrap; font-style: italic; color: #333;
-        }
-
-        @media (max-width: 750px) {
-            .task-section { grid-template-columns: 1fr; }
-            .student-inputs { flex-direction: column; }
-        }
+        button.btn-primary { background: var(--oxford-blue); color: white; padding: 18px; border-radius: 12px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; width: 100%; margin-top: 15px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="card" id="alreadySentMessage" style="text-align: center;">
-        <div style="font-size: 5rem;">🚫</div>
-        <h1 style="color: var(--oxford-blue);">Task Already Sent</h1>
-        <p>You have already submitted this assignment. You cannot send it again.</p>
+<button class="toolkit-toggle" onclick="toggleToolkit()">🧰</button>
+
+<div class="toolkit-sidebar" id="toolkitSidebar">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <h3 style="margin:0; font-size: 1.1rem;">🧰 Language Toolkit A2</h3>
+        <button onclick="toggleToolkit()" style="background:none; border:none; color:red; cursor:pointer; font-size: 1.5rem;">✕</button>
+    </div>
+    <div class="tool-section">
+        <span class="tool-label">Story Connectors</span>
+        <div class="phrase-item">Sequencing: First, Then, Suddenly, Finally.</div>
+        <div class="phrase-item">Connectors: and, but, because, so.</div>
+    </div>
+    <div id="projectSpecificToolkit"></div>
+    <div style="margin-top:20px; border-top: 1px solid #eee; padding-top: 15px;">
+        <a href="https://www.wordreference.com" target="_blank" style="text-decoration:none; color:var(--oxford-blue); font-weight:bold; font-size:0.8rem;">🌐 WordReference Dictionary</a>
+    </div>
+</div>
+
+<div class="container" id="mainContainer">
+    <div class="card" id="mainForm">
+        <h2>🛠️ Remix Project Guide</h2>
+        <p class="subtitle">A2 Level Production Planner</p>
+        
+        <div class="step-box">
+            <div class="step-title">1. Team Details</div>
+            <input type="text" id="names" placeholder="Students' Names" style="padding:10px; border-radius:8px; border:1px solid #cbd5e1; width:100%;">
+        </div>
+
+        <div class="step-box">
+            <div class="step-title">2. Choose Format</div>
+            <div class="format-grid">
+                <div class="format-option" onclick="buildGuide('Social Media', this)"><span>📱</span> <h4>Social Media</h4></div>
+                <div class="format-option" onclick="buildGuide('Comic Strip', this)"><span>🎨</span> <h4>Comic Strip</h4></div>
+                <div class="format-option" onclick="buildGuide('Book Trailer', this)"><span>🎬</span> <h4>Book Trailer</h4></div>
+                <div class="format-option" onclick="buildGuide('Interview', this)"><span>🎙️</span> <h4>Interview</h4></div>
+            </div>
+        </div>
+
+        <div id="dynamicGuide">
+            <div class="step-title">3. Planning Questions</div>
+            <div id="questionsContainer"></div>
+
+            <div class="step-box" style="background: #fffcf0; border: 2px solid var(--oxford-gold);">
+                <div class="step-title" style="border-bottom-color: var(--oxford-blue);">✅ Your product must include:</div>
+                <ul style="font-size: 0.85rem; color: #475569; padding-left: 20px;">
+                    <li><b>2 sequencing words</b> (First, Then, Suddenly…)</li>
+                    <li><b>2 connectors</b> (and, but, because, so)</li>
+                    <li><b>1 opinion</b> (I think…, I like…)</li>
+                    <li><b>1 feeling + because</b> (I feel… because…)</li>
+                    <li id="trailerRequirement" style="display:none; color: #b45309;"><b>1 mystery sentence</b> (Trailer only!)</li>
+                </ul>
+            </div>
+
+            <div class="step-box">
+                <div class="step-title">✔ Self-Evaluation Checklist</div>
+                <p style="font-size: 0.8rem; margin-bottom: 10px;">Check your work before you finish!</p>
+                <div class="checklist-item"><input type="checkbox"> <span>Did I use sequencing words?</span></div>
+                <div class="checklist-item"><input type="checkbox"> <span>Did I use connectors?</span></div>
+                <div class="checklist-item"><input type="checkbox"> <span>Did I give an opinion?</span></div>
+                <div class="checklist-item"><input type="checkbox"> <span>Did I express a feeling + because?</span></div>
+                <div id="trailerCheck" class="checklist-item" style="display:none;"><input type="checkbox"> <span>Did I include a mystery sentence?</span></div>
+            </div>
+        </div>
+
+        <button class="btn-primary" onclick="showReview()">Review Final Plan →</button>
     </div>
 
-    <div class="card" id="writingScreen">
-        <div class="header-logo">WRITING III: PHYSICAL DESCRIPTIONS</div>
-
-        <div class="student-inputs">
-            <select id="sClass" onchange="updateStudentList()">
-                <option value="">-- Select Class --</option>
-                <option value="5thA">5th A</option>
-                <option value="5thB">5th B</option>
-                <option value="5thC">5th C</option>
-            </select>
-            <select id="sName" disabled>
-                <option value="">-- Select Name --</option>
-            </select>
-        </div>
-
-        <div class="word-bank">
-            <div class="word-category">
-                <h4>🔗 Connectors</h4>
-                <div class="word-list">
-                    <span class="highlight-word">And, but, also.</span><br>
-                    <span class="highlight-word">In this picture...</span><br>
-                    <span class="highlight-word">He/She is wearing...</span>
-                </div>
-            </div>
-            <div class="word-category">
-                <h4>💇‍♂️ Hair & Eyes</h4>
-                <div class="word-list">Short, long, curly, wavy, dark, blonde, blue, green.</div>
-            </div>
-            <div class="word-category">
-                <h4>✨ Features</h4>
-                <div class="word-list">Mustache, glasses, headband, denim jacket, smiling, happy.</div>
-            </div>
-            <div class="word-category">
-                <h4>📏 Body</h4>
-                <div class="word-list">Strong, tall, slim, short, muscles, young.</div>
-            </div>
-        </div>
-
-        <div class="task-section">
-            <div class="task-card">
-                <h3 style="text-align: center; color: var(--oxford-blue);">Task 1: Describe Him</h3>
-                <div class="image-container">
-                    <img src="https://raw.githubusercontent.com/alvarocontreras-spec/5-grade-2026-writingIII/cb2eca81d86d48c036a0f2d0258d2aa051c43896/describir-hombre-en-ingles.webp" alt="Man with mustache">
-                </div>
-                <textarea id="textMan" oninput="updateLiveCount('textMan', 'liveMan')" placeholder="Example: In this picture...he has got... "></textarea>
-                <div id="liveMan" class="live-counter">Words: 0 / 25</div>
-            </div>
-
-            <div class="task-card">
-                <h3 style="text-align: center; color: var(--oxford-blue);">Task 2: Describe Her</h3>
-                <div class="image-container">
-                    <img src="https://raw.githubusercontent.com/alvarocontreras-spec/5-grade-2026-writingIII/cb2eca81d86d48c036a0f2d0258d2aa051c43896/61b74b7b5f66bf311c9250ac_happy-young-woman-on-a-yellow-background-SBI-317641691_1_l8qfut.jpeg" alt="Woman with yellow glasses">
-                </div>
-                <textarea id="textWoman" oninput="updateLiveCount('textWoman', 'liveWoman')" placeholder="Example: This is a young woman...she has got..."></textarea>
-                <div id="liveWoman" class="live-counter">Words: 0 / 25</div>
-            </div>
-        </div>
-
-        <button class="btn-review" onclick="showReview()">🔍 Review My Work</button>
-    </div>
-
-    <div class="card" id="reviewScreen">
-        <div class="header-logo">CHECK YOUR WORK</div>
-        <div class="review-box">
-            <strong>Student:</strong> <span id="revName"></span> | <strong>Class:</strong> <span id="revClass"></span>
-        </div>
-
-        <div class="feedback-guide">
-            <h4 style="margin-top:0; color: var(--oxford-blue);">📝 A2 Self-Check:</h4>
-            <ul style="margin-bottom:0;">
-                <li>Did you use <strong>connectors</strong> (and, but, also)?</li>
-                <li>Is your text clear and easy to read?</li>
-            </ul>
-        </div>
-
-        <p><strong>Description 1 (Him):</strong></p>
-        <div class="review-text" id="revMan"></div>
-
-        <p><strong>Description 2 (Her):</strong></p>
-        <div class="review-text" id="revWoman"></div>
-
-        <div style="text-align: center; margin-top: 20px;">
-            <button class="btn-edit" onclick="goBackAndEdit()">✏️ Edit</button>
-            <button class="btn-send" id="sendBtn" onclick="sendTask()">🚀 Send to Teacher</button>
-        </div>
-    </div>
-
-    <div class="card" id="finalMessage" style="text-align: center;">
-        <div style="font-size: 5rem; color: var(--success);">✔</div>
-        <h1 style="color: var(--oxford-blue);">WELL DONE!</h1>
-        <p>Your writing task has been sent successfully.</p>
-        <p style="color: #666; font-size: 0.9rem;">Task completed for 2026.</p>
+    <div class="card" id="reviewSummary" style="display:none;">
+        <h3>🔍 My Project Plan</h3>
+        <div id="summaryContent" style="background:#f8fafc; padding:20px; border-radius:15px; font-size:0.95rem;"></div>
+        <button class="btn-primary" style="background:var(--success);" onclick="location.reload()">Confirm & Save 🚀</button>
+        <button class="btn-primary" style="background:#64748b;" onclick="document.getElementById('mainForm').style.display='block'; document.getElementById('reviewSummary').style.display='none';">Edit Draft</button>
     </div>
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzC5NzVTjG_FcrtrTzf1zYkkA204-SIT6-pXf2hT_GY4rdk-6AOz2yD7JmQo7UjZeQ8/exec";
+    let currentSelection = "";
+    function toggleToolkit() { document.getElementById('toolkitSidebar').classList.toggle('open'); }
 
-    // Bloqueo de envío único al cargar
-    window.onload = function() {
-        if (localStorage.getItem("writing_submitted_2026") === "true") {
-            document.getElementById('writingScreen').style.display = 'none';
-            document.getElementById('alreadySentMessage').style.display = 'block';
-        }
+    const a2Guides = {
+        'Social Media': [
+            { h: "Understanding", q: ["Who is the character?", "Where is the character?", "What happens in the story?"] },
+            { h: "Analysis", q: ["Is the character happy or sad? Why?", "What does the character like or dislike?"] },
+            { h: "Planning", q: ["Username?", "Bio? (2-3 sentences)", "3-4 events to post?"] },
+            { h: "Creation", q: ["Caption drafts?", "Hashtags?"] }
+        ],
+        'Comic Strip': [
+            { h: "Understanding", q: ["Problem in the story?", "Original ending?"] },
+            { h: "Analysis", q: ["Alternative ending idea?", "What changes?"] },
+            { h: "Planning", q: ["Panel 1 action?", "Panel 2 action?", "Resolution action?"] }
+        ],
+        'Book Trailer': [
+            { h: "Understanding", q: ["Main character?", "The problem?"] },
+            { h: "Analysis", q: ["Is it interesting? Why?", "Mood?"] },
+            { h: "Planning", q: ["Intro hook?", "3 sentences for the script?"] }
+        ],
+        'Interview': [
+            { h: "Understanding", q: ["The character?", "Main events?"] },
+            { h: "Analysis", q: ["Feelings?", "Thoughts?"] },
+            { h: "Planning", q: ["3 Questions?", "3 Answers?"] }
+        ]
     };
 
-    // Función contador en vivo
-    function updateLiveCount(textId, counterId) {
-        const text = document.getElementById(textId).value.trim();
-        const counter = document.getElementById(counterId);
-        const words = text === "" ? 0 : text.split(/\s+/).length;
-        
-        counter.textContent = `Words: ${words} / 25`;
-        
-        if(words >= 25) {
-            counter.classList.add('goal-met');
-        } else {
-            counter.classList.remove('goal-met');
-        }
-    }
+    function buildGuide(format, element) {
+        currentSelection = format;
+        document.querySelectorAll('.format-option').forEach(opt => opt.classList.remove('selected'));
+        element.classList.add('selected');
 
-    const students = {
-        "5thA": ["ARANEDA SEPÚLVEDA MATÍAS SANTIAGO", "AYALA OLIVARES MÁXIMO ALONSO", "CAMPUSANO PÉREZ ISIDORA MONTSERRAT", "CANESSA VEGA BERNARDO FRANCISCO", "CARRASCO RAMÍREZ JAVIERA PAZ", "CHAMORRO SAN MARTÍN SEBASTIÁN FRANCISCO", "CORREA LEAL SANTIAGO LEÓN", "CUKIC LUENGO BRUNO EDUARDO", "ESPINOZA OLIVARES LUCAS ALEJANDRO", "FERNÁNDEZ ESCOBAR MARTÍN FELIPE", "FERNÁNDEZ RODRIGUEZ FERNANDA NICOLE", "GARNIER VELÁSQUEZ MAXIMILIANO LORENZO", "GARZON MACUER AMANDA SOFÍA", "GONZÁLEZ ARRIAGADA SOFÍA ISIDORA", "IBARRA BARRAZA DOMINGA PAZ", "JARAMILLO CANALES JULIETA ANTONIA", "JIMÉNEZ MONSALVES FERNANDA PAZ", "MACUADA GONZÁLEZ TOMÁS ALONSO", "MEZA MISTO FRANCISCA IGNACIA", "MUÑOZ OLIVOS SOFÍA ANTONIA", "NECULQUEO MURA JAVIER MATIAS", "OSORIO MUÑOZ LUCIANO", "PARRA ALIAGA AGUSTÍN CLEMENTE LEÓN", "RIQUELME CONTRERAS JULIETA ISADORA", "SALINAS SAAVEDRA EMILIANO IGNACIO", "SÁNCHEZ MORAGA NICOLÁS ARTURO", "SEISDEDOS CARVAJAL ANGELA GUADALUPE", "SEREY VALDES RENATO CLEMENTE", "SEYMOUR REYES TRINIDAD EMILIA", "VALLEJOS NAVARRO JOSEFA AGUSTINA", "VELOSO MUÑOZ ISABELLA AMARAL", "VERGARA FUENZALIDA JOAQUÍN IGNACIO", "VERGARA MARÍN DAMIÁN ALONSO", "VINES ZÚÑIGA DAMIÁN ALBERTO", "ZURITA BUSTOS ANTONIA INÉS"],
-        "5thB": ["ACUÑA ALARCÓN DOMINGO", "AGUILAR MENARES VALENTÍN IGNACIO", "ALLENDE GARAY ALFONSO ERNESTO", "ARA CAMPUSANO VALENTINA ANTONIA", "ARAYA ESCALONA JOSE MANUEL", "ÁVILA RAMÍREZ AMANDA", "BOBADILLA PONCE VICENTE IGNACIO", "CASTILLO CARVAJAL TRINIDAD PAZ", "CONTRERAS RAMOS AMANDA BELÉN", "DÍAZ CORTÉS NICOLÁS IGNACIO", "DURÁN FREZ FLORENCIA CATALINA", "FARÍAS VALENZUELA REBECCA ESPERANZA", "GARRIDO DONOSO AMANDA", "GÓMEZ BURGOS ROSARIO BELÉN", "GONZÁLEZ ESPINOZA ARANTZA MICAELA", "HOLZMANN CÁRCAMO ANTONIA IGNACIA", "LAZO DÍAZ RENATA ANDREA", "LÓPEZ OJEDA AGUSTÍN SANTIAGO", "MENESES MADARIAGA GASPAR BAUTISTA", "MORAGA MARTINEZ VICTORIA ESPERANZA", "MOSQUEIRA VALDIVIA CAMILO ANDRÉS", "ORMEÑO LACHR PEDRO JOAQUIN", "OSORNO ARRIAGADA AMANDA MARIANNE", "PARRA PIMENTEL CONSUELO EMILIA", "REYES MARCHANT EMILIANO BAUTISTA", "RIVERA SAAVEDRA DIEGO ANDRÉS", "ROMÁN PEÑA GUSTAVO EMILIO", "RUIZ GARCÍA SANTIAGO ALONSO", "RUZ REYES MATÍAS ALEJANDRO", "SARRIA ASTUDILLO EVA MAGDALENA", "TRUJILLO BURGOS SANTIAGO ALONSO", "URQUEJO CHACANO RAFAELA", "VALENZUELA GONZÁLEZ JOSÉ MIGUEL", "VÁSQUEZ TAPIA SOFÍA ANTONIA", "VILLANUEVA SIMON GASPAR ALBERTO", "ZAMORA TORRES FACUNDO AGUSTÍN"],
-        "5thC": ["ABURTO FUENTEALBA IGNACIO ANDRÉS", "ÁGUILA MOSCOSO LÍA ISABELLA", "ALBORNOZ IBARRA LAURA ALEJANDRA", "ALEGRÍA RAMÍREZ JAVIERA IGNACIA", "APIOLAZA SCACCHI DIEGO ALEJANDRO", "BRANTE CATAFAU RAFAEL BAUTISTA", "BRUNAUD GALLARDO MARIA FERNANDA", "CADIU MELLA MAXIMILIANO IGNACIO", "CANTO MORAGA FELIPE", "CASTILLO MORALES VICENTE SALVADOR", "CASTRO CEPEDA RENATO", "CAVIERES PASMIÑO ROSARIO ISABEL", "CEPEDA PEDREROS CAMILO IGNACIO", "CONTRERAS CÁRDENAS JOSEFA IGNACIA", "CERDA OSSES RAFAEL ORLANDO", "CORTÉS JARA EMMA VALENTINA", "FECCI DUARTE GASPAR OLIVER", "FERNÁNDEZ SALINAS RAFAELA ANHAIS", "GARCÍA ANDRADE MAITE CELESTE", "GONZÁLEZ HERNÁNDEZ AGUSTINA PAZ", "GONZÁLEZ YÁÑEZ LUCIANO ALONSO", "HENRÍQUEZ LÓPEZ ANTONIO MIGUEL", "MORALES MORIS BERNARDO LEON", "MUÑOZ LEÓN MATILDE IGNACIA", "PAVEZ KNUST PEDRO ENRIQUE", "PIZARRO PAREDES ALONSO GABRIEL", "QUINTEROS MONDIGLIO LEONOR IGNACIA", "QUIROZ PÉREZ RAMIRO AGUSTÍN", "REYES BICHARA FRANCO FARID", "REYES CAÑAS JOAQUÍN ALEJANDRO", "RIQUELME ZÚÑIGA ISIDORA PAZ", "SALAZAR BELMAR AGUSTÍN ALONSO", "SANTOS ALVAREZ MIA SOPHIA", "TOBAR GONZÁLEZ FLORENCIA AYLIN", "VALENZUELA GONZÁLEZ GABRIEL IGNACIO", "VALLE FUENTES ELISA"]
-    };
+        document.getElementById('trailerRequirement').style.display = (format === 'Book Trailer') ? 'block' : 'none';
+        document.getElementById('trailerCheck').style.display = (format === 'Book Trailer') ? 'flex' : 'none';
 
-    function updateStudentList() {
-        const classSelect = document.getElementById('sClass');
-        const nameSelect = document.getElementById('sName');
-        const selectedClass = classSelect.value;
-        nameSelect.innerHTML = '<option value="">-- Select Name --</option>';
-        if (selectedClass) {
-            students[selectedClass].forEach(name => {
-                const opt = document.createElement('option');
-                opt.value = name; opt.textContent = name;
-                nameSelect.appendChild(opt);
+        const guideDiv = document.getElementById('dynamicGuide');
+        const container = document.getElementById('questionsContainer');
+        guideDiv.style.display = 'block';
+        container.innerHTML = "";
+
+        a2Guides[format].forEach((phase, pIdx) => {
+            let section = document.createElement('div');
+            section.className = "phase-section";
+            section.innerHTML = `<div class="phase-header"><span>PHASE ${pIdx+1}</span> ${phase.h}</div>`;
+            phase.q.forEach(q => {
+                section.innerHTML += `<div class="q-item"><label>${q}</label><textarea class="guide-input"></textarea></div>`;
             });
-            nameSelect.disabled = false;
-        } else { nameSelect.disabled = true; }
+            container.appendChild(section);
+        });
+        if(!document.getElementById('toolkitSidebar').classList.contains('open')) toggleToolkit();
     }
 
     function showReview() {
-        const name = document.getElementById('sName').value;
-        const textMan = document.getElementById('textMan').value.trim();
-        const textWoman = document.getElementById('textWoman').value.trim();
-        
-        if(!name) return alert("Please select your name!");
-        if(textMan.split(/\s+/).length < 5 || textWoman.split(/\s+/).length < 5) {
-            return alert("Your descriptions are too short. Please write more!");
-        }
-
-        document.getElementById('revName').textContent = name;
-        document.getElementById('revClass').textContent = document.getElementById('sClass').value;
-        document.getElementById('revMan').textContent = textMan;
-        document.getElementById('revWoman').textContent = textWoman;
-        
-        document.getElementById('writingScreen').style.display = 'none';
-        document.getElementById('reviewScreen').style.display = 'block';
-        window.scrollTo(0,0);
-    }
-
-    function goBackAndEdit() {
-        document.getElementById('writingScreen').style.display = 'block';
-        document.getElementById('reviewScreen').style.display = 'none';
-    }
-
-    async function sendTask() {
-        const btn = document.getElementById('sendBtn');
-        btn.disabled = true; 
-        btn.textContent = "⌛ Sending...";
-
-        const payload = {
-            filename: `WRITING3_${document.getElementById('sClass').value}_${document.getElementById('sName').value.replace(/ /g,"_")}.txt`,
-            content: `STUDENT: ${document.getElementById('sName').value}\nCLASS: ${document.getElementById('sClass').value}\n\n[MAN]: ${document.getElementById('textMan').value}\n\n[WOMAN]: ${document.getElementById('textWoman').value}`
-        };
-
-        try {
-            await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
-            localStorage.setItem("writing_submitted_2026", "true");
-            document.getElementById('reviewScreen').style.display = 'none';
-            document.getElementById('finalMessage').style.display = 'block';
-        } catch (e) { 
-            alert("Error sending. Check connection."); 
-            btn.disabled = false; 
-            btn.textContent = "🚀 Send to Teacher";
-        }
+        if(!currentSelection || !document.getElementById('names').value) { alert("Names and Format required!"); return; }
+        let summaryHtml = `<p><b>Students:</b> ${document.getElementById('names').value}</p><p><b>Project:</b> ${currentSelection}</p><hr>`;
+        document.querySelectorAll('.guide-input').forEach(ta => {
+            if(ta.value) summaryHtml += `<p><b>${ta.previousElementSibling.innerText}</b><br>${ta.value}</p>`;
+        });
+        document.getElementById('summaryContent').innerHTML = summaryHtml;
+        document.getElementById('mainForm').style.display = 'none';
+        document.getElementById('reviewSummary').style.display = 'block';
     }
 </script>
 </body>
