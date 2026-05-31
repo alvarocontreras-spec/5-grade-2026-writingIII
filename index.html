@@ -295,7 +295,6 @@
         const textMan = document.getElementById('textMan').value.trim();
         const textWoman = document.getElementById('textWoman').value.trim();
         
-        // Corrección del bug de conteo de palabras en textareas vacíos
         const wordsMan = textMan === "" ? 0 : textMan.split(/\s+/).length;
         const wordsWoman = textWoman === "" ? 0 : textWoman.split(/\s+/).length;
 
@@ -316,19 +315,27 @@
         document.getElementById('reviewScreen').style.display = 'none';
     }
 
-    // NUEVA FUNCIÓN: Descarga del respaldo local
     function downloadBackup() {
         const sClass = document.getElementById('sClass').value;
         const sName = document.getElementById('sName').value;
         const textMan = document.getElementById('textMan').value;
         const textWoman = document.getElementById('textWoman').value;
 
-        const filename = `WRITING3_${sClass}_${sName.replace(/ /g,"_")}.txt`;
+        if (!sClass || !sName) {
+            return alert("Please select your class and name before downloading.");
+        }
+
+        // Limpiar el nombre para evitar problemas con tildes/espacios en el nombre de archivo del sistema operativo
+        const sanitizedName = sName.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ /g, "_");
+        const filename = `WRITING3_${sClass}_${sanitizedName}.txt`;
+        
+        // Contenido estructurado del archivo de texto
         const content = `STUDENT: ${sName}\nCLASS: ${sClass}\n\n[MAN]:\n${textMan}\n\n[WOMAN]:\n${textWoman}`;
 
-        // Crear elemento en memoria para forzar la descarga
-        const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+        // El prefijo \ufeff fuerza codificación UTF-8 con BOM para que Windows Bloc de Notas lea bien la 'Ñ' y las tildes
+        const blob = new Blob(["\ufeff" + content], { type: "text/plain;charset=utf-8" });
         const link = document.createElement("a");
+        
         link.href = URL.createObjectURL(blob);
         link.download = filename;
         
