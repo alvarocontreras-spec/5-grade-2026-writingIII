@@ -109,6 +109,7 @@
         .btn-review { background: var(--oxford-gold); color: white; }
         .btn-send { background: var(--success); color: white; margin-top: 15px; }
         .btn-edit { background: #eee; color: #555; width: auto; margin-right: 10px; }
+        .btn-download { background: #64748b; color: white; width: auto; margin-right: 10px; }
 
         #reviewScreen, #finalMessage, #alreadySentMessage { display: none; }
 
@@ -128,9 +129,19 @@
             white-space: pre-wrap; font-style: italic; color: #333;
         }
 
+        /* Contenedor de acciones centrado */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
         @media (max-width: 750px) {
             .task-section { grid-template-columns: 1fr; }
             .student-inputs { flex-direction: column; }
+            .action-buttons button { width: 100%; margin-right: 0; margin-top: 5px; }
         }
     </style>
 </head>
@@ -224,8 +235,9 @@
         <p><strong>Description 2 (Her):</strong></p>
         <div class="review-text" id="revWoman"></div>
 
-        <div style="text-align: center; margin-top: 20px;">
+        <div class="action-buttons">
             <button class="btn-edit" onclick="goBackAndEdit()">✏️ Edit</button>
+            <button class="btn-download" onclick="downloadBackup()">💾 Download TXT</button>
             <button class="btn-send" id="sendBtn" onclick="sendTask()">🚀 Send to Teacher</button>
         </div>
     </div>
@@ -282,8 +294,13 @@
         const name = document.getElementById('sName').value;
         const textMan = document.getElementById('textMan').value.trim();
         const textWoman = document.getElementById('textWoman').value.trim();
-        if(!name || textMan.split(/\s+/).length < 5 || textWoman.split(/\s+/).length < 5) {
-            return alert("Your descriptions are too short. Please write more!");
+        
+        // Corrección del bug de conteo de palabras en textareas vacíos
+        const wordsMan = textMan === "" ? 0 : textMan.split(/\s+/).length;
+        const wordsWoman = textWoman === "" ? 0 : textWoman.split(/\s+/).length;
+
+        if(!name || wordsMan < 5 || wordsWoman < 5) {
+            return alert("Your descriptions are too short or student name is missing. Please review!");
         }
         document.getElementById('revName').textContent = name;
         document.getElementById('revClass').textContent = document.getElementById('sClass').value;
@@ -297,6 +314,27 @@
     function goBackAndEdit() {
         document.getElementById('writingScreen').style.display = 'block';
         document.getElementById('reviewScreen').style.display = 'none';
+    }
+
+    // NUEVA FUNCIÓN: Descarga del respaldo local
+    function downloadBackup() {
+        const sClass = document.getElementById('sClass').value;
+        const sName = document.getElementById('sName').value;
+        const textMan = document.getElementById('textMan').value;
+        const textWoman = document.getElementById('textWoman').value;
+
+        const filename = `WRITING3_${sClass}_${sName.replace(/ /g,"_")}.txt`;
+        const content = `STUDENT: ${sName}\nCLASS: ${sClass}\n\n[MAN]:\n${textMan}\n\n[WOMAN]:\n${textWoman}`;
+
+        // Crear elemento en memoria para forzar la descarga
+        const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
 
     async function sendTask() {
