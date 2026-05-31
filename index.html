@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WRITING III - Physical Descriptions A2</title>
+    <title>Colegio San Ignacio - My Daily Routine</title>
     <style>
         :root {
             --oxford-blue: #002147;
@@ -38,10 +38,18 @@
             font-weight: bold;
             color: var(--oxford-blue);
             font-size: 1.8rem;
-            margin-bottom: 20px;
+            margin-bottom: 5px;
             text-align: center;
+        }
+        
+        .header-subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 1rem;
+            margin-bottom: 20px;
             border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
+            padding-bottom: 15px;
+            font-weight: 600;
         }
 
         .student-inputs { display: flex; gap: 15px; margin-bottom: 20px; }
@@ -49,6 +57,33 @@
         select {
             flex: 1; padding: 12px; border-radius: 10px;
             border: 2px solid #e2e8f0; font-size: 1rem; outline: none;
+        }
+
+        /* Botón de descarga de PDF */
+        .download-box {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .btn-download {
+            background-color: #ffffff;
+            color: var(--oxford-blue);
+            border: 2px solid var(--oxford-blue);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            width: auto;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .btn-download:hover {
+            background-color: var(--oxford-blue);
+            color: white;
         }
 
         /* Word Bank */
@@ -59,44 +94,38 @@
             padding: 20px;
             margin-bottom: 30px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 15px;
         }
 
         .word-category h4 { margin: 0 0 5px 0; color: var(--oxford-blue); font-size: 0.9rem; text-transform: uppercase; }
-        .word-list { font-size: 0.85rem; color: #475569; line-height: 1.4; }
+        .word-list { font-size: 0.85rem; color: #475569; line-height: 1.5; }
         .highlight-word { color: #2563eb; font-weight: bold; }
 
-        /* Tareas */
-        .task-section {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px;
-        }
-
+        /* Tarea Unificada (8-10 Oraciones) */
         .task-card {
-            background: #f8fafc; padding: 20px; border-radius: 15px;
-            border: 1px solid #e2e8f0;
+            background: #f8fafc; padding: 25px; border-radius: 15px;
+            border: 1px solid #e2e8f0; margin-bottom: 30px;
         }
 
-        .image-container img {
-            width: 100%; height: 350px; object-fit: cover;
-            border-radius: 12px; border: 4px solid var(--oxford-gold);
-            margin-bottom: 10px;
-            background-color: #eee;
+        .instructions-box {
+            background: #fff; padding: 15px; border-radius: 10px;
+            border-left: 4px solid var(--oxford-gold); margin-bottom: 20px;
+            font-size: 0.95rem; color: #334155; line-height: 1.5;
         }
 
         textarea {
-            width: 100%; height: 160px; padding: 12px;
+            width: 100%; height: 220px; padding: 15px;
             border: 2px solid #e2e8f0; border-radius: 10px;
-            font-size: 1rem; resize: none; box-sizing: border-box;
-            font-family: inherit; outline: none;
+            font-size: 1.05rem; resize: none; box-sizing: border-box;
+            font-family: inherit; outline: none; line-height: 1.6;
         }
 
-        /* Contadores en vivo */
         .live-counter {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: bold;
             text-align: right;
-            margin-top: 5px;
+            margin-top: 8px;
             color: var(--error);
         }
         .live-counter.goal-met { color: var(--success); }
@@ -120,17 +149,18 @@
 
         .feedback-guide {
             background: #eef2ff; padding: 15px; border-radius: 10px;
-            margin-bottom: 20px; font-size: 0.9rem; border: 1px solid #d1dbff;
+            margin-bottom: 20px; font-size: 0.95rem; border: 1px solid #d1dbff;
+            color: #1e293b;
         }
 
         .review-text {
-            background: white; padding: 15px; border-radius: 8px;
+            background: white; padding: 20px; border-radius: 8px;
             border: 1px solid #e2e8f0; margin: 10px 0 5px 0;
-            white-space: pre-wrap; font-style: italic; color: #333;
+            white-space: pre-wrap; font-style: italic; color: #1e293b;
+            font-size: 1.1rem; line-height: 1.6;
         }
 
         @media (max-width: 750px) {
-            .task-section { grid-template-columns: 1fr; }
             .student-inputs { flex-direction: column; }
         }
     </style>
@@ -138,14 +168,17 @@
 <body>
 
 <div class="container">
+    <!-- PANTALLA YA ENVIADO -->
     <div class="card" id="alreadySentMessage" style="text-align: center;">
         <div style="font-size: 5rem;">🚫</div>
         <h1 style="color: var(--oxford-blue);">Task Already Sent</h1>
         <p>You have already submitted this assignment. You cannot send it again.</p>
     </div>
 
+    <!-- PANTALLA 1: ESCRITURA -->
     <div class="card" id="writingScreen">
-        <div class="header-logo">WRITING III: PHYSICAL DESCRIPTIONS</div>
+        <div class="header-logo">COLEGIO SAN IGNACIO - ENGLISH DEPARTMENT</div>
+        <div class="header-subtitle">My Daily Routine (5° Básico Present Simple Writing)</div>
 
         <div class="student-inputs">
             <select id="sClass" onchange="updateStudentList()">
@@ -159,106 +192,114 @@
             </select>
         </div>
 
+        <!-- BOTÓN DE DESCARGA DEL PDF -->
+        <div class="download-box">
+            <a href="my_daily_routine_5basico.pdf" download="my_daily_routine_5basico.pdf" class="btn-download">
+                📥 Download Official Worksheet (PDF)
+            </a>
+        </div>
+
+        <!-- VOCABULARY BANK [my_daily_routine_5basico.pdf] -->
         <div class="word-bank">
             <div class="word-category">
-                <h4>🔗 Connectors</h4>
+                <h4>⏰ Actions & Routines</h4>
                 <div class="word-list">
-                    <span class="highlight-word">And, but, also.</span><br>
-                    <span class="highlight-word">In this picture...</span><br>
-                    <span class="highlight-word">He/She is wearing...</span>
+                    <span class="highlight-word">wake up</span> (despertar) | 
+                    <span class="highlight-word">get dressed</span> (vestirse) | 
+                    <span class="highlight-word">have breakfast</span> (desayunar)<br>
+                    <span class="highlight-word">go to school</span> (ir al colegio) | 
+                    <span class="highlight-word">study / do homework</span> (estudiar/hacer tareas)<br>
+                    <span class="highlight-word">have lunch</span> (almorzar) | 
+                    <span class="highlight-word">play / do sport</span> (jugar/hacer deporte)<br>
+                    <span class="highlight-word">have dinner</span> (cenar) | 
+                    <span class="highlight-word">go to bed</span> (irse a dormir) | 
+                    <span class="highlight-word">brush my teeth</span> (cepillar los dientes)
                 </div>
             </div>
             <div class="word-category">
-                <h4>💇‍♂️ Hair & Eyes</h4>
-                <div class="word-list">Short, long, curly, wavy, dark, blonde, blue, green.</div>
-            </div>
-            <div class="word-category">
-                <h4>✨ Features</h4>
-                <div class="word-list">Mustache, glasses, headband, denim jacket, smiling, happy.</div>
-            </div>
-            <div class="word-category">
-                <h4>📏 Body</h4>
-                <div class="word-list">Strong, tall, slim, short, muscles, young.</div>
+                <h4>🔗 Frequency & Time Expressions</h4>
+                <div class="word-list">
+                    <span class="highlight-word">usually / always</span> (normalmente / siempre)<br>
+                    <span class="highlight-word">in the morning / evening</span> (en la mañana / tarde)<br>
+                    <span class="highlight-word">at 7:00 am / at o'clock</span> | 
+                    <span class="highlight-word">after school</span>
+                </div>
             </div>
         </div>
 
-        <div class="task-section">
-            <div class="task-card">
-                <h3 style="text-align: center; color: var(--oxford-blue);">Task 1: Describe Him</h3>
-                <div class="image-container">
-                    <img src="https://raw.githubusercontent.com/alvarocontreras-spec/5-grade-2026-writingIII/cb2eca81d86d48c036a0f2d0258d2aa051c43896/describir-hombre-en-ingles.webp" alt="Man with mustache">
-                </div>
-                <textarea id="textMan" oninput="updateLiveCount('textMan', 'liveMan')" placeholder="Example: In this picture..."></textarea>
-                <div id="liveMan" class="live-counter">Words: 0 / 25</div>
+        <!-- WRITING TASK [my_daily_routine_5basico.pdf] -->
+        <div class="task-card">
+            <h3 style="margin-top: 0; color: var(--oxford-blue);">Writing Task (25 pts)</h3>
+            <div class="instructions-box">
+                <strong>Instructions:</strong> Write about your daily routine from morning to night[cite: 1]. You must write 
+                <strong>8-10 sentences</strong> using the Present Simple tense, vocabulary bank words, and time expressions[cite: 1].<br><br>
+                <strong>Sentence starters you can use:</strong> 
+                <em>I wake up at... | In the morning, I... | At school, I... | After school, I... | In the evening, I... | I go to bed at...</em>[cite: 1]
             </div>
-
-            <div class="task-card">
-                <h3 style="text-align: center; color: var(--oxford-blue);">Task 2: Describe Her</h3>
-                <div class="image-container">
-                    <img src="https://raw.githubusercontent.com/alvarocontreras-spec/5-grade-2026-writingIII/cb2eca81d86d48c036a0f2d0258d2aa051c43896/61b74b7b5f66bf311c9250ac_happy-young-woman-on-a-yellow-background-SBI-317641691_1_l8qfut.jpeg" alt="Woman with yellow glasses">
-                </div>
-                <textarea id="textWoman" oninput="updateLiveCount('textWoman', 'liveWoman')" placeholder="Example: This is a young woman..."></textarea>
-                <div id="liveWoman" class="live-counter">Words: 0 / 25</div>
-            </div>
+            
+            <textarea id="routineText" oninput="updateLiveCount('routineText', 'liveCount')" placeholder="Example: I wake up at 7 o'clock every day. I usually have breakfast with my family..."></textarea>
+            <div id="liveCount" class="live-counter">Estimated sentences: 0 / 8 (Words: 0)</div>
         </div>
 
         <button class="btn-review" onclick="showReview()">🔍 Review My Work</button>
     </div>
 
+    <!-- PANTALLA 2: REVISIÓN -->
     <div class="card" id="reviewScreen">
         <div class="header-logo">CHECK YOUR WORK</div>
         <div class="review-box">
             <strong>Student:</strong> <span id="revName"></span> | <strong>Class:</strong> <span id="revClass"></span>
         </div>
 
+        <!-- RUBRIC / CHECKLIST INTEGRATION [my_daily_routine_5basico.pdf] -->
         <div class="feedback-guide">
-            <h4 style="margin-top:0; color: var(--oxford-blue);">📝 A2 Self-Check:</h4>
-            <ul style="margin-bottom:0;">
-                <li>Did you use <strong>connectors</strong> (and, but, also)?</li>
-                <li>Is your text clear and easy to read?</li>
+            <h4 style="margin-top:0; color: var(--oxford-blue);">📝 Present Simple Writing Checklist:</h4>
+            <ul style="margin-bottom:0; padding-left: 20px; line-height: 1.4;">
+                <li>Did you include at least <strong>8-10 sentences</strong> describing your routine[cite: 1]?</li>
+                <li>Did you use <strong>verbs in Present Simple</strong> correctly with "I" (I wake up, I eat...)[cite: 1]?</li>
+                <li>Did you use at least <strong>3+ time expressions</strong> (at 7:00, after school, in the morning)[cite: 1]?</li>
+                <li>Did you check your spelling and punctuation[cite: 1]?</li>
             </ul>
         </div>
 
-        <p><strong>Description 1 (Him):</strong></p>
-        <div class="review-text" id="revMan"></div>
-
-        <p><strong>Description 2 (Her):</strong></p>
-        <div class="review-text" id="revWoman"></div>
+        <p><strong>Your Daily Routine Text:</strong></p>
+        <div class="review-text" id="revText"></div>
 
         <div style="text-align: center; margin-top: 20px;">
-            <button class="btn-edit" onclick="goBackAndEdit()">✏️ Edit</button>
+            <button class="btn-edit" onclick="goBackAndEdit()">✏️ Edit Text</button>
             <button class="btn-send" id="sendBtn" onclick="sendTask()">🚀 Send to Teacher</button>
         </div>
     </div>
 
+    <!-- PANTALLA 3: ÉXITO -->
     <div class="card" id="finalMessage" style="text-align: center;">
         <div style="font-size: 5rem; color: var(--success);">✔</div>
         <h1 style="color: var(--oxford-blue);">WELL DONE!</h1>
-        <p>Your writing task has been sent successfully.</p>
-        <p style="color: #666; font-size: 0.9rem;">Task completed for 2026.</p>
+        <p>Your writing text has been submitted successfully to the teacher.</p>
+        <p style="color: #666; font-size: 0.9rem; margin-top: 20px;">Get ready for the <strong>Speaking Task (25 pts)</strong> next class! Use your text to present (1-2 min)[cite: 1].</p>
     </div>
 </div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzC5NzVTjG_FcrtrTzf1zYkkA204-SIT6-pXf2hT_GY4rdk-6AOz2yD7JmQo7UjZeQ8/exec";
 
-    // Bloqueo de envío único al cargar
     window.onload = function() {
-        if (localStorage.getItem("writing_submitted_2026") === "true") {
+        if (localStorage.getItem("routine_submitted_2026") === "true") {
             document.getElementById('writingScreen').style.display = 'none';
             document.getElementById('alreadySentMessage').style.display = 'block';
         }
     };
 
-    // Función contador en vivo
     function updateLiveCount(textId, counterId) {
         const text = document.getElementById(textId).value.trim();
         const counter = document.getElementById(counterId);
+        
         const words = text === "" ? 0 : text.split(/\s+/).length;
+        const sentences = text === "" ? 0 : text.split(/[.!?]+/).filter(s => s.trim().length > 3).length;
         
-        counter.textContent = `Words: ${words} / 25`;
+        counter.textContent = `Estimated sentences: ${sentences} / 8 (Words: ${words})`;
         
-        if(words >= 25) {
+        if(sentences >= 8 || words >= 45) {
             counter.classList.add('goal-met');
         } else {
             counter.classList.remove('goal-met');
@@ -288,18 +329,17 @@
 
     function showReview() {
         const name = document.getElementById('sName').value;
-        const textMan = document.getElementById('textMan').value.trim();
-        const textWoman = document.getElementById('textWoman').value.trim();
+        const text = document.getElementById('routineText').value.trim();
+        const wordCount = text === "" ? 0 : text.split(/\s+/).length;
         
         if(!name) return alert("Please select your name!");
-        if(textMan.split(/\s+/).length < 5 || textWoman.split(/\s+/).length < 5) {
-            return alert("Your descriptions are too short. Please write more!");
+        if(wordCount < 15) {
+            return alert("Your routine text is too short. Please follow the instructions and write about your day!");
         }
 
         document.getElementById('revName').textContent = name;
         document.getElementById('revClass').textContent = document.getElementById('sClass').value;
-        document.getElementById('revMan').textContent = textMan;
-        document.getElementById('revWoman').textContent = textWoman;
+        document.getElementById('revText').textContent = text;
         
         document.getElementById('writingScreen').style.display = 'none';
         document.getElementById('reviewScreen').style.display = 'block';
@@ -317,13 +357,13 @@
         btn.textContent = "⌛ Sending...";
 
         const payload = {
-            filename: `WRITING3_${document.getElementById('sClass').value}_${document.getElementById('sName').value.replace(/ /g,"_")}.txt`,
-            content: `STUDENT: ${document.getElementById('sName').value}\nCLASS: ${document.getElementById('sClass').value}\n\n[MAN]: ${document.getElementById('textMan').value}\n\n[WOMAN]: ${document.getElementById('textWoman').value}`
+            filename: `DAILY_ROUTINE_${document.getElementById('sClass').value}_${document.getElementById('sName').value.replace(/ /g,"_")}.txt`,
+            content: `STUDENT: ${document.getElementById('sName').value}\nCLASS: ${document.getElementById('sClass').value}\n\n[DAILY ROUTINE]:\n${document.getElementById('routineText').value}`
         };
 
         try {
             await fetch(SCRIPT_URL, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
-            localStorage.setItem("writing_submitted_2026", "true");
+            localStorage.setItem("routine_submitted_2026", "true");
             document.getElementById('reviewScreen').style.display = 'none';
             document.getElementById('finalMessage').style.display = 'block';
         } catch (e) { 
